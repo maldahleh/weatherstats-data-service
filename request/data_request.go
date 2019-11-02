@@ -18,6 +18,16 @@ var provinces = [...]string{
 	"YT",
 }
 
+var dataPoints = [...]string{
+	"maxtemp",
+	"mintemp",
+	"meantemp",
+	"rain",
+	"snow",
+	"precip",
+	"maxgust",
+}
+
 type StationRequest struct {
 	Province *string        `json:"province"`
 	Months   *map[int][]int `json:"months"`
@@ -74,5 +84,25 @@ func (r *DataRequest) Validate() bool {
 		return false
 	}
 
+	points := make([]string, len(*r.DataPoints))
+	for k, v := range *r.DataPoints {
+		loweredPoint := strings.ToLower(v)
+		if !validPoint(loweredPoint) {
+			return false
+		}
+
+		points[k] = loweredPoint
+	}
+
 	return true
+}
+
+func validPoint(point string) bool {
+	for _, loopPoint := range dataPoints {
+		if loopPoint == point {
+			return true
+		}
+	}
+
+	return false
 }
