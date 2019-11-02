@@ -1,6 +1,8 @@
 package request
 
-import "strings"
+import (
+	"strings"
+)
 
 var provinces = [...]string{
 	"AB",
@@ -94,6 +96,7 @@ func (r *DataRequest) Validate() bool {
 		points[k] = loweredPoint
 	}
 
+	r.DataPoints = &points
 	return true
 }
 
