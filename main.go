@@ -19,13 +19,8 @@ func handleRequest(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if request.Data == nil {
-		http.Error(rw, "missing field 'data' from JSON object", http.StatusBadRequest)
-		return
-	}
-
-	if request.DataPoints == nil {
-		http.Error(rw, "missing field 'points' from JSON object", http.StatusBadRequest)
+	if !request.Validate() {
+		http.Error(rw, "Invalid request", http.StatusBadRequest)
 		return
 	}
 
@@ -33,9 +28,6 @@ func handleRequest(rw http.ResponseWriter, req *http.Request) {
 		http.Error(rw, "extraneous data after JSON object", http.StatusBadRequest)
 		return
 	}
-
-	log.Println(*request.Data)
-	log.Println(*request.DataPoints)
 }
 
 func main() {

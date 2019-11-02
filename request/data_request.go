@@ -59,7 +59,20 @@ type DataRequest struct {
 	DataPoints *[]string                  `json:"points"`
 }
 
-func (* DataRequest) Validate() bool {
-	// TODO
+func (r *DataRequest) Validate() bool {
+	if r.Data == nil {
+		return false
+	}
+
+	for _, v := range *r.Data {
+		if !v.validate() {
+			return false
+		}
+	}
+
+	if r.DataPoints == nil {
+		return false
+	}
+
 	return true
 }
