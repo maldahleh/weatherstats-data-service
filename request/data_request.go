@@ -89,7 +89,7 @@ func (r *DataRequest) Validate() bool {
 	points := make([]string, len(*r.DataPoints))
 	for k, v := range *r.DataPoints {
 		loweredPoint := strings.ToLower(v)
-		if !validPoint(loweredPoint) {
+		if !isValidPoint(loweredPoint) {
 			return false
 		}
 
@@ -100,7 +100,7 @@ func (r *DataRequest) Validate() bool {
 	return true
 }
 
-func validPoint(point string) bool {
+func isValidPoint(point string) bool {
 	for _, loopPoint := range dataPoints {
 		if loopPoint == point {
 			return true
