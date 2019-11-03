@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"weatherstatsData/handlers"
 	data "weatherstatsData/request"
 )
 
@@ -27,6 +28,10 @@ func handleRequest(rw http.ResponseWriter, req *http.Request) {
 	if decoder.More() {
 		http.Error(rw, "extraneous data after JSON object", http.StatusBadRequest)
 		return
+	}
+
+	for key, value := range *request.Data {
+		handlers.RetrieveData(key, value, request.DataPoints)
 	}
 }
 
