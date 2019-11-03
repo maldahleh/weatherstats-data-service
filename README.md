@@ -18,8 +18,8 @@ Acceptable data points are a combination of:
 ### Endpoints
 **/** - Returns the requested data as a JSON object
 
-When making a request, you must include a proper payload in the body of your request for it to be parsed, here is a
-sample request body:
+When making a request, you must include a proper payload in the body of your request for it to be responded to, here is
+ a sample request body:
 
 ```json
 {
