@@ -56,25 +56,25 @@ func RetrieveData(stationId string, station request.StationRequest, dataPoints *
 				for _, requestedPoint := range *dataPoints {
 					switch requestedPoint {
 					case "maxtemp":
-						dayPointData[requestedPoint] = record[5]
+						dayPointData[requestedPoint] = strings.Trim(record[5], "\"")
 					case "mintemp":
-						dayPointData[requestedPoint] = record[7]
+						dayPointData[requestedPoint] = strings.Trim(record[7], "\"")
 					case "meantemp":
-						dayPointData[requestedPoint] = record[9]
+						dayPointData[requestedPoint] = strings.Trim(record[9], "\"")
 					case "rain":
-						dayPointData[requestedPoint] = record[15]
+						dayPointData[requestedPoint] = strings.Trim(record[15], "\"")
 					case "snow":
-						dayPointData[requestedPoint] = record[17]
+						dayPointData[requestedPoint] = strings.Trim(record[17], "\"")
 					case "precip":
-						dayPointData[requestedPoint] = record[19]
+						dayPointData[requestedPoint] = strings.Trim(record[19], "\"")
 					case "snowgrnd":
-						dayPointData[requestedPoint] = record[21]
+						dayPointData[requestedPoint] = strings.Trim(record[21], "\"")
 					case "maxgust":
-						dayPointData[requestedPoint] = record[25]
+						dayPointData[requestedPoint] = strings.Trim(record[25], "\"")
 					}
 				}
 
-				dayData[record[3]] = dayPointData
+				dayData[strings.Trim(record[3], "\"")] = dayPointData
 			}
 
 			if err := scanner.Err(); err != nil {
