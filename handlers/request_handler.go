@@ -1,12 +1,13 @@
 package handlers
 
 import (
-	"encoding/csv"
-	"io"
+	"bufio"
 	"os"
 	"strconv"
+	"strings"
 
 	"weatherstatsData/request"
+	"weatherstatsData/utils"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -28,34 +29,30 @@ func RetrieveData(stationId string, station request.StationRequest, dataPoints *
 			month := stringifyMonth(monthRaw)
 			filePath := stationId + "-" + year + "-" + month + ".csv"
 
-			//err := utils.DownloadFile(filePath, createUrl(stationId, *station.Province, year, month))
-			//if err != nil {
-			//	log.Error("Failed to download file ", filePath, " error ", err)
-			//	continue
-			//}
-
-			csvFile, err := os.Open(filePath)
+			err := utils.DownloadFile(filePath, createUrl(stationId, *station.Province, year, month))
 			if err != nil {
-				log.Error("Failed to open file ", filePath, " error ", err)
+				log.Error("Failed to download file ", filePath, " error ", err)
 				continue
 			}
 
-			r := csv.NewReader(csvFile)
-			r.TrimLeadingSpace = true
+			csvFile, err := os.Open(filePath)
+			if err != nil {
+				log.Error("failed to open file", filePath, "error", err)
+				utils.DeleteFile(filePath)
+				continue
+			}
 
+			scanner := bufio.NewScanner(csvFile)
 			dayData := make(dailyData)
-			for {
-				record, err := r.Read()
-				if err == io.EOF {
-					break
-				}
-
-				if err != nil {
-					log.Error("Error encountered reading ", filePath, " error ", err)
-					break
+			headerLine := 0
+			for scanner.Scan() {
+				if headerLine < 25 {
+					headerLine++
+					continue
 				}
 
 				dayPointData := make(pointData)
+				record := strings.Split(scanner.Text(), ",")
 				for _, requestedPoint := range *dataPoints {
 					switch requestedPoint {
 					case "maxtemp":
@@ -80,16 +77,16 @@ func RetrieveData(stationId string, station request.StationRequest, dataPoints *
 				dayData[record[3]] = dayPointData
 			}
 
+			if err := scanner.Err(); err != nil {
+				log.Fatal("error reading", csvFile, "error", err)
+			}
+
 			err = csvFile.Close()
 			if err != nil {
 				log.Error("Failed to close file ", filePath, " error ", err)
 			}
 
-			//err = utils.DeleteFile(filePath)
-			//if err != nil {
-			//	log.Error("Failed to delete file ", filePath, " error ", err)
-			//}
-
+			utils.DeleteFile(filePath)
 			monthData[month] = dayData
 		}
 

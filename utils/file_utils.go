@@ -4,6 +4,8 @@ import (
 	"io"
 	"net/http"
 	"os"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func DownloadFile(filepath string, url string) error {
@@ -25,6 +27,9 @@ func DownloadFile(filepath string, url string) error {
 	return err
 }
 
-func DeleteFile(filepath string) error {
-	return os.Remove(filepath)
+func DeleteFile(filepath string) {
+	err := os.Remove(filepath)
+	if err != nil {
+		log.Error("failed to delete file", filepath, "error", err)
+	}
 }
