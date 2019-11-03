@@ -51,8 +51,13 @@ func RetrieveData(stationId string, station request.StationRequest, dataPoints *
 					continue
 				}
 
+				text := scanner.Text()
+				if text == "" {
+					continue
+				}
+
 				dayPointData := make(pointData)
-				record := strings.Split(scanner.Text(), ",")
+				record := strings.Split(text, ",")
 				for _, requestedPoint := range *dataPoints {
 					switch requestedPoint {
 					case "maxtemp":
