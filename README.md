@@ -3,6 +3,13 @@
 This repo houses a Go microservice that responds to requests with historical climate data from Environment and Climate 
 Change Canada's servers.
 
+### Table of Contents
+- [WeatherStats Data Service](#weatherstats-data-service)
+    + [Data Points](#data-points)
+    + [Endpoints](#endpoints)
+      - [Sample Response](#sample-response)
+    + [Additional Information](#additional-information)
+
 ### Data Points
 Acceptable data points are a combination of:
 
