@@ -31,7 +31,7 @@ func RetrieveData(stationId string, station request.StationRequest, dataPoints *
 
 			err := utils.DownloadFile(filePath, createUrl(stationId, *station.Province, year, month))
 			if err != nil {
-				log.Error("Failed to download file ", filePath, " error ", err)
+				log.Error("failed to download file", filePath, "error", err)
 				continue
 			}
 
@@ -83,7 +83,7 @@ func RetrieveData(stationId string, station request.StationRequest, dataPoints *
 
 			err = csvFile.Close()
 			if err != nil {
-				log.Error("Failed to close file ", filePath, " error ", err)
+				log.Error("failed to close file", filePath, "error", err)
 			}
 
 			utils.DeleteFile(filePath)

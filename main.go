@@ -8,7 +8,7 @@ import (
 	"weatherstatsData/handlers"
 	data "weatherstatsData/request"
 
-	logrus "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 func handleRequest(rw http.ResponseWriter, req *http.Request) {
@@ -53,6 +53,6 @@ func handleRequest(rw http.ResponseWriter, req *http.Request) {
 func main() {
 	http.HandleFunc("/", handleRequest)
 	if err := http.ListenAndServe(":8082", nil); err != nil {
-		log.Fatal("Unable to start web server", err)
+		log.Fatal("unable to start web server", err)
 	}
 }
