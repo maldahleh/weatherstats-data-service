@@ -26,6 +26,7 @@ var dataPoints = [...]string{
 	"meantemp",
 	"rain",
 	"snow",
+	"snowgrnd",
 	"precip",
 	"maxgust",
 }

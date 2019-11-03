@@ -11,5 +11,6 @@ Acceptable data points are a combination of:
 - meantemp
 - rain
 - snow
+- snowgrnd
 - precip
 - maxgust

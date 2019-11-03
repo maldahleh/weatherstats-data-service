@@ -7,6 +7,8 @@ import (
 
 	"weatherstatsData/handlers"
 	data "weatherstatsData/request"
+
+	logrus "github.com/sirupsen/logrus"
 )
 
 func handleRequest(rw http.ResponseWriter, req *http.Request) {
@@ -21,7 +23,7 @@ func handleRequest(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	if !request.Validate() {
-		http.Error(rw, "Invalid request", http.StatusBadRequest)
+		http.Error(rw, "invalid request", http.StatusBadRequest)
 		return
 	}
 
@@ -30,8 +32,21 @@ func handleRequest(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	stationData := make(map[string]handlers.YearlyData)
 	for key, value := range *request.Data {
-		handlers.RetrieveData(key, value, request.DataPoints)
+		stationData[key] = handlers.RetrieveData(key, value, request.DataPoints)
+	}
+
+	resp, err := json.Marshal(stationData)
+	if err != nil {
+		logrus.Error("json failed", err)
+		http.Error(rw, "request failed, try again later", http.StatusInternalServerError)
+		return
+	}
+
+	_, err = rw.Write(resp)
+	if err != nil {
+		logrus.Error("HTTP Write Failure", err)
 	}
 }
 
