@@ -49,7 +49,7 @@ func (r *StationRequest) validateProvince() bool {
 
 func (r *StationRequest) validateMonths() bool {
 	for key, value := range *r.Months {
-		if key < 1900 || key > 2019 {
+		if key < 1800 || key > 2019 {
 			return false
 		}
 
