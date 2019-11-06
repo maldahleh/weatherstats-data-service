@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func DownloadFile(filepath string, url string) error {
+func DownloadFile(path string, url string) error {
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
@@ -16,7 +16,7 @@ func DownloadFile(filepath string, url string) error {
 
 	defer resp.Body.Close()
 
-	out, err := os.Create(filepath)
+	out, err := os.Create(path)
 	if err != nil {
 		return err
 	}
@@ -27,9 +27,9 @@ func DownloadFile(filepath string, url string) error {
 	return err
 }
 
-func DeleteFile(filepath string) {
-	err := os.Remove(filepath)
+func DeleteFile(path string) {
+	err := os.Remove(path)
 	if err != nil {
-		log.Error("failed to delete file", filepath, "error", err)
+		log.Error("failed to delete file", path, "error", err)
 	}
 }

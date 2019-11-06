@@ -12,7 +12,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const rootUrl = "https://dd.weather.gc.ca/climate/observations/daily/csv/"
+const root = "https://dd.weather.gc.ca/climate/observations/daily/csv/"
 
 type YearlyData map[string]monthlyData
 type monthlyData map[string]dailyData
@@ -102,7 +102,7 @@ func RetrieveData(stationId string, station request.StationRequest, dataPoints *
 }
 
 func createUrl(stationId string, province string, year string, month string) string {
-	return rootUrl + province + "/" + "climate_daily_" + province + "_" + stationId + "_" + year + "-" + month + "_PID.csv"
+	return root + province + "/" + "climate_daily_" + province + "_" + stationId + "_" + year + "-" + month + "_PID.csv"
 }
 
 func stringifyMonth(month int) string {
