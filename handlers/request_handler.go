@@ -27,22 +27,22 @@ func RetrieveData(stationId string, station request.StationRequest, dataPoints *
 		monthData := make(monthlyData)
 		for _, monthRaw := range months {
 			month := stringifyMonth(monthRaw)
-			filePath := stationId + "-" + year + "-" + month + ".csv"
+			path := stationId + "-" + year + "-" + month + ".csv"
 
-			err := utils.DownloadFile(filePath, createUrl(stationId, *station.Province, year, month))
+			err := utils.DownloadFile(path, createUrl(stationId, *station.Province, year, month))
 			if err != nil {
-				log.Error("failed to download file", filePath, "error", err)
+				log.Error("failed to download file", path, "error", err)
 				continue
 			}
 
-			csvFile, err := os.Open(filePath)
+			file, err := os.Open(path)
 			if err != nil {
-				log.Error("failed to open file", filePath, "error", err)
-				utils.DeleteFile(filePath)
+				log.Error("failed to open file", path, "error", err)
+				utils.DeleteFile(path)
 				continue
 			}
 
-			scanner := bufio.NewScanner(csvFile)
+			scanner := bufio.NewScanner(file)
 			dayData := make(dailyData)
 			headerLine := 0
 			for scanner.Scan() {
@@ -83,15 +83,15 @@ func RetrieveData(stationId string, station request.StationRequest, dataPoints *
 			}
 
 			if err := scanner.Err(); err != nil {
-				log.Fatal("error reading", csvFile, "error", err)
+				log.Fatal("error reading", file, "error", err)
 			}
 
-			err = csvFile.Close()
+			err = file.Close()
 			if err != nil {
-				log.Error("failed to close file", filePath, "error", err)
+				log.Error("failed to close file", path, "error", err)
 			}
 
-			utils.DeleteFile(filePath)
+			utils.DeleteFile(path)
 			monthData[month] = dayData
 		}
 
