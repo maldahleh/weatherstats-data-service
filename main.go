@@ -52,7 +52,7 @@ func handleRequest(rw http.ResponseWriter, req *http.Request) {
 
 func main() {
 	http.HandleFunc("/", handleRequest)
-	if err := http.ListenAndServe(":8082", nil); err != nil {
-		log.Fatal("unable to start web server", err)
-	}
+
+	err := http.ListenAndServe(":8082", nil)
+	log.Fatal("encountered error with web server", err)
 }
