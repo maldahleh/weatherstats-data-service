@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"weatherstatsData/request"
-	"weatherstatsData/utils"
 
+	utils "github.com/maldahleh/fileutils"
 	log "github.com/sirupsen/logrus"
 )
 
